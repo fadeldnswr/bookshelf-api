@@ -104,7 +104,7 @@ const saveBooks = (request, h) => {
     const insertedAt = new Date().toISOString()
     const updatedAt = insertedAt
     const finished = readPage === pageCount
-    
+
     const newBook = {
         id,
         name,
@@ -125,7 +125,7 @@ const saveBooks = (request, h) => {
     const isSuccess = books.filter((book) => book.id === id).length > 0
     if(isSuccess){
         const response = h.response({
-            status: "Success",
+            status: "success",
             message: "Buku berhasil ditambahkan",
             data: {
                 bookId: id,
@@ -155,12 +155,7 @@ const changeBooksData = (request, h) => {
         pageCount, 
         readPage
     } = request.payload
-
-    // Mencari buku berdasarkan index
-    const index = books.findIndex((book) => book.id === id)
-    const updatedAt = new Date().toISOString()
-    const finished = readPage === pageCount
-
+    
     if(!name){
         const response = h.resposne({
             status: "fail",
@@ -169,7 +164,7 @@ const changeBooksData = (request, h) => {
         response.code(400)
         return response
     }
-
+    
     if(readPage > pageCount){
         const response = h.response({
             status: "fail",
@@ -178,7 +173,9 @@ const changeBooksData = (request, h) => {
         response.code(400)
         return response
     }
-
+    
+    const index = books.findIndex((book) => book.id === id)
+    
     if(!index === -1){
         const response = h.response({
             status: "fail",
@@ -187,6 +184,8 @@ const changeBooksData = (request, h) => {
         response.code(404)
         return response
     }
+    const updatedAt = new Date().toISOString()
+    const finished = readPage === pageCount
 
     books[index] = {
         ...books[index],
