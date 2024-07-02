@@ -69,11 +69,6 @@ const showDetailBooks = (request, h) => {
 
 // Menyimpan buku
 const saveBooks = (request, h) => {
-    const id = nanoid(16)
-    const insertedAt = new Date().toISOString()
-    const updatedAt = insertedAt
-    const finished = readPage === pageCount
-
     const {
         name,
         year,
@@ -84,6 +79,8 @@ const saveBooks = (request, h) => {
         pageCount,
         readPage
     } = request.payload
+    
+    
 
     if(!name){
         const response = h.response({
@@ -93,7 +90,7 @@ const saveBooks = (request, h) => {
         response.code(400)
         return response
     }
-
+    
     if(readPage > pageCount){
         const response = h.response({
             status: "fail",
@@ -102,7 +99,12 @@ const saveBooks = (request, h) => {
         response.code(400)
         return response
     }
-
+    
+    const id = nanoid(16)
+    const insertedAt = new Date().toISOString()
+    const updatedAt = insertedAt
+    const finished = readPage === pageCount
+    
     const newBook = {
         id,
         name,
