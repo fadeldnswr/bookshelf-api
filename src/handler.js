@@ -47,23 +47,23 @@ const showAllBooks = (request, h) => {
 // Menampilkan buku berdasarkan Id
 const showDetailBooks = (request, h) => {
     const { id } = request.params
-    const book = books.find((book) => book.id === id)
+    const book = books.filter((index) => index.id === id)[0]
     
-    if(!book){
+    if(book !== undefined){
         const response = h.response({
-            status: "fail",
-            message: "Buku tidak ditemukan"
+            status: "success",
+            data: {
+                book
+            }
         })
-        response.code(404)
+        response.code(200)
         return response
     }
     const response = h.response({
-        status: "success",
-        data: {
-            book
-        }
+        status: "fail",
+        message: "Buku tidak ditemukan"
     })
-    response.code(200)
+    response.code(404)
     return response
 }
 
@@ -79,8 +79,6 @@ const saveBooks = (request, h) => {
         pageCount,
         readPage
     } = request.payload
-    
-    
 
     if(!name){
         const response = h.response({
@@ -144,7 +142,6 @@ const saveBooks = (request, h) => {
 
 // Mengubah data pada buku
 const changeBooksData = (request, h) => {
-    const { id } = request.params
     const {
         name, 
         year, 
@@ -174,6 +171,7 @@ const changeBooksData = (request, h) => {
         return response
     }
     
+    const { id } = request.params
     const index = books.findIndex((book) => book.id === id)
     
     if(!index === -1){
