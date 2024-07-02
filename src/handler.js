@@ -70,6 +70,10 @@ const showDetailBooks = (request, h) => {
 // Menyimpan buku
 const saveBooks = (request, h) => {
     const id = nanoid(16)
+    const insertedAt = new Date().toISOString()
+    const updatedAt = insertedAt
+    const finished = readPage === pageCount
+
     const {
         name,
         year,
@@ -98,10 +102,6 @@ const saveBooks = (request, h) => {
         response.code(400)
         return response
     }
-
-    const insertedAt = new Date().toISOString()
-    const updatedAt = insertedAt
-    const finished = readPage === pageCount
 
     const newBook = {
         id,
@@ -162,7 +162,7 @@ const changeBooksData = (request, h) => {
     if(!name){
         const response = h.resposne({
             status: "fail",
-            message: "gagal memperbarui buku. Mohon isi nama buku"
+            message: "Gagal menambahkan buku. Mohon isi nama buku"
         })
         response.code(400)
         return response
