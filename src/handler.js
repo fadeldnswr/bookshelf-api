@@ -8,12 +8,12 @@ const showAllBooks = (request, h) => {
     const { reading, finished } = request.query
     const booksFiltered = books
 
-    if(reading !== undefined){
+    if(!reading){
         const isReading = reading === "true"
         booksFiltered.filter((book) => book.reading === isReading)
     }
 
-    if(finished !== undefined){
+    if(!finished){
         const isFinished = finished === "true"
         booksFiltered.filter((book) => book.finished === isFinished)
     }
@@ -47,9 +47,9 @@ const showAllBooks = (request, h) => {
 // Menampilkan buku berdasarkan Id
 const showDetailBooks = (request, h) => {
     const { id } = request.params
-    const book = books.filter((index) => index.id === id)[0]
+    const book = books.find((book) => book.id === id)
     
-    if(book !== undefined){
+    if(book){
         const response = h.response({
             status: "success",
             data: {
@@ -201,7 +201,7 @@ const changeBooksData = (request, h) => {
 
     const response = h.response({
         status: "success",
-        message: "Buku berhasil diperbaharui"
+        message: "Buku berhasil diperbarui"
     })
     response.code(200)
     return response
