@@ -5,30 +5,6 @@ const books = require("./books")
 // Menampilkan seluruh buku
 // Menggunakan query parameter
 const showAllBooks = (request, h) => {
-    const { reading, finished } = request.query
-    const booksFiltered = books
-
-    if(!reading){
-        const isReading = reading === "true"
-        booksFiltered.filter((book) => book.reading === isReading)
-    }
-
-    if(!finished){
-        const isFinished = finished === "true"
-        booksFiltered.filter((book) => book.finished === isFinished)
-    }
-
-    if(!books.length){
-        const response = h.response({
-            status: "success",
-            data: {
-                books: []
-            }
-        })
-        response.code(200)
-        return response
-    }
-    
     const response = h.response({
         status: "success",
         data : {
@@ -40,8 +16,7 @@ const showAllBooks = (request, h) => {
         }
     })
     response.code(200)
-    return response
-    
+    return response  
 }
 
 // Menampilkan buku berdasarkan Id
