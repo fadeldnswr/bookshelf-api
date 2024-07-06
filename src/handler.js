@@ -152,7 +152,7 @@ const changeBooksData = (request, h) => {
     if(!name){
         const response = h.response({
             status: "fail",
-            message: "Gagal menambahkan buku. Mohon isi nama buku"
+            message: "Gagal memperbarui buku. Mohon isi nama buku"
         })
         response.code(400)
         return response
@@ -161,7 +161,7 @@ const changeBooksData = (request, h) => {
     if(readPage > pageCount){
         const response = h.response({
             status: "fail",
-            message: "Gagal memperbarui buku. readPage tidak boleh lebih dari pageCount"
+            message: "Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount"
         })
         response.code(400)
         return response
@@ -170,7 +170,7 @@ const changeBooksData = (request, h) => {
     const { bookId } = request.params
     const index = books.findIndex((book) => book.id === bookId)
     
-    if(!index === -1){
+    if(index === -1){
         const response = h.response({
             status: "fail",
             message: "Gagal memperbarui buku. Id tidak ditemukan"
