@@ -5,6 +5,27 @@ const books = require("./books")
 // Menampilkan seluruh buku
 // Menggunakan query parameter
 const showAllBooks = (request, h) => {
+    const {reading, finished} = request.query
+    const booksFiltered = books
+
+    if(reading){
+        const isReading = reading === "true"
+        booksFiltered.filter((book) => book.reading === isReading)
+    }
+    if(finished){
+        const isFinished = finished === "true"
+        booksFiltered.filter((book) => book.finished === isFinished)
+    }
+    if(!books.length){
+        const response = h.response({
+            status: "success",
+            data: {
+                books: []
+            }
+        })
+        response.cod(200)
+        return response
+    }
     const response = h.response({
         status: "success",
         data : {
@@ -21,8 +42,8 @@ const showAllBooks = (request, h) => {
 
 // Menampilkan buku berdasarkan Id
 const showDetailBooks = (request, h) => {
-    const { id } = request.params
-    const book = books.find((book) => book.id === id)
+    const { bookId } = request.params
+    const book = books.find((book) => book.id === bookId)
     
     if(book){
         const response = h.response({
@@ -140,19 +161,19 @@ const changeBooksData = (request, h) => {
     if(readPage > pageCount){
         const response = h.response({
             status: "fail",
-            message: "gagal memperbarui buku. readPage tidak boleh lebih dari pageCount"
+            message: "Gagal memperbarui buku. readPage tidak boleh lebih dari pageCount"
         })
         response.code(400)
         return response
     }
     
-    const { id } = request.params
-    const index = books.findIndex((book) => book.id === id)
+    const { bookId } = request.params
+    const index = books.findIndex((book) => book.id === bookId)
     
     if(!index === -1){
         const response = h.response({
             status: "fail",
-            message: "gagal memperbarui buku. Id tidak ditemukan"
+            message: "Gagal memperbarui buku. Id tidak ditemukan"
         })
         response.code(404)
         return response
@@ -183,8 +204,8 @@ const changeBooksData = (request, h) => {
 }
 
 const deleteBooks = (request, h) => {
-    const { id } = request.params
-    const index = books.findIndex((book) => book.id === id)
+    const { bookId } = request.params
+    const index = books.findIndex((book) => book.id === bookId)
 
     if(index === -1){
         const response = h.response({
