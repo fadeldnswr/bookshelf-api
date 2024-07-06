@@ -150,7 +150,7 @@ const changeBooksData = (request, h) => {
     } = request.payload
     
     if(!name){
-        const response = h.resposne({
+        const response = h.response({
             status: "fail",
             message: "Gagal menambahkan buku. Mohon isi nama buku"
         })
